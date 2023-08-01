@@ -1,0 +1,17 @@
+.seat-button{
+    text-decoration: none;
+    color:white
+}
+.seat-button:hover{
+    text-decoration: none;
+    color:white
+}
+
+.edit-button{
+    text-decoration: none;
+    color:blue
+}
+.edit-button:hover{
+    text-decoration: none;
+    color:blue
+}
