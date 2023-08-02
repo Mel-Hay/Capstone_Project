@@ -30,7 +30,7 @@ function ReservationForm({ values, handleChange, handleSubmit, handleCancel, tit
           type="tel"
           onChange={handleChange}
           value={values.mobile_number}
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          pattern="^\d{3}-?\d{3}-?\d{4}$"
           title="Phone number should be in the format: 123-456-7890"
           name="mobile_number"
           className="d-inline-flex"
