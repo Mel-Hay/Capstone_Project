@@ -47,7 +47,7 @@ function Search(){
       function formatReservations() {
         if (reservations.length>0) {
           const reservationElements = reservations.map((reservation) => {
-            const {reservation_id, last_name, first_name, mobile_number, reservation_date, reservation_time, people} = reservation
+            const {status, reservation_id, last_name, first_name, mobile_number, reservation_date, reservation_time, people} = reservation
             const fullName = `${last_name}, ${first_name}`
             const formattedTime = formatTime(reservation_time)
             return(
@@ -63,6 +63,7 @@ function Search(){
                 Reservation Time: {formattedTime}
               </p>
               <p>Number of People: {people}</p>
+              <p>Status: {status.charAt(0).toUpperCase() + status.slice(1)}</p>
               <hr></hr>
             </div>
         )

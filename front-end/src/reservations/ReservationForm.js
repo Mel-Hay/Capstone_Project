@@ -37,11 +37,11 @@ function ReservationForm({ values, handleChange, handleSubmit, handleCancel, tit
         />
       </div>
       <div className="d-block">
-        <p className="d-inline-flex">Reservation Date:</p>
+        <p className="d-inline-flex">Reservation Date: </p>
         <input
           type="date"
           onChange={handleChange}
-          value={values.reservation_date}
+          value={values.reservation_date.slice(0, 10)}
           name="reservation_date"
           className="d-inline-flex"
         />

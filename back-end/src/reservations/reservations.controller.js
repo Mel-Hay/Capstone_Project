@@ -174,8 +174,8 @@ async function validateCreate(req, res, next){
       throw error;
     }
 
-    if(Number(people)<2){
-      let error = new Error(`Must have at least 2 for a reservation.`);
+    if(Number(people)<1){
+      let error = new Error(`Must have at least 1 for a reservation.`);
       error.status = 400;
       throw error;
     }
@@ -215,8 +215,6 @@ async function validateCreate(req, res, next){
     
     }
 
-  
-    
    
     // Convert the time to minutes for easier comparison
     const timeInMinutes = hours * 60 + minutes;
