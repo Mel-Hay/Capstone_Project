@@ -9,7 +9,7 @@ const requiredFields = [
   "mobile_number",
   "people",
 ];
-const {PRODUCTION} = process.env
+
 async function list(req, res, next) {
   const mobileNumber = req.query.mobile_number;
   if (mobileNumber) {
@@ -186,7 +186,7 @@ async function validateCreate(req, res, next){
       error.status = 400;
       throw error;
     }
-    if(PRODUCTION === true){
+    if(process.env.PRODUCTION === 'true'){
       const reservationDateTime = new Date(
         year,
         month-1,
