@@ -4,8 +4,10 @@ import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { formatAsDate } from "../utils/date-time";
+import ReservationForm from "./ReservationForm";
+
 function ReservationEdit() {
-  const { REACT_APP_API_BASE_URL } = process.env
+  const { REACT_APP_API_BASE_URL } = process.env;
   const { reservation_id } = useParams();
   const idNum = Number(reservation_id);
   const [reservationsError, setReservationsError] = useState(null);
@@ -29,9 +31,9 @@ function ReservationEdit() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    let newValue = value
-    if(name==="people"){
-      newValue=Number(value)
+    let newValue = value;
+    if(name === "people"){
+      newValue = Number(value);
     }
     setReservation((prevReservation) => ({
       ...prevReservation,
@@ -40,15 +42,16 @@ function ReservationEdit() {
   };
 
   const handleButtonClick = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
-        const response= await axios.put(`${REACT_APP_API_BASE_URL}/reservations/${idNum}`, { ...reservation })
-        const formattedDate = formatAsDate(response.data.data.reservation_date)
-        history.push(`/dashboard?date=${formattedDate}`)
+        const response = await axios.put(`${REACT_APP_API_BASE_URL}/reservations/${idNum}`, { ...reservation });
+        const formattedDate = formatAsDate(response.data.data.reservation_date);
+        history.push(`/dashboard?date=${formattedDate}`);
     } catch (error) {
       setReservationsError({message: error.response.data.error});
     }
   };
+
   const handleCancel = () => {
     history.goBack();
   };
@@ -62,79 +65,14 @@ function ReservationEdit() {
       <ErrorAlert error={reservationsError} />
       <h1>Reservations</h1> 
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Edit your reservation now!</h4>     
+        <ReservationForm
+          values={reservation}
+          handleChange={handleChange}
+          handleSubmit={handleButtonClick}
+          handleCancel={handleCancel}
+          title="Edit your reservation now!"
+        />   
       </div>
-        <form >
-        <div className="d-block">
-        <p className="d-inline-flex">First Name:</p>
-        <input
-          type="text"
-          onChange={handleChange}
-          value={reservation.first_name}
-          name="first_name"
-          className="d-inline-flex"
-        />
-      </div>
-      <div className="d-block">
-        <p className="d-inline-flex">Last Name:</p>
-        <input
-          type="text"
-          onChange={handleChange}
-          value={reservation.last_name}
-          name="last_name"
-          className="d-inline-flex"         
-        />
-      </div>
-      <div className="d-block">
-        <p className="d-inline-flex">Phone Number:</p>
-        <input
-          type="tel"
-          onChange={handleChange}
-          value={reservation.mobile_number}
-          name="mobile_number"
-          className="d-inline-flex"
-        />
-      </div>
-      <div className="d-block">
-        <p className="d-inline-flex">Reservation Date:</p>
-        <input
-          type="date"
-          onChange={handleChange}
-          value={reservation.reservation_date}
-          name="reservation_date"
-          className="d-inline-flex"
-        />
-      </div>
-      <div className="d-block">
-        <p className="d-inline-flex">Reservation Time:</p>
-        <input
-          type="time"
-          onChange={handleChange}
-          value={reservation.reservation_time}
-          name="reservation_time"
-          className="d-inline-flex"
-        />
-      </div>
-      <div className="d-block">
-        <p className="d-inline-flex">Size of party:</p>
-        <input
-          type="number"
-          onChange={handleChange}
-          value={reservation.people}
-          name="people"
-          className="d-inline-flex"
-        />
-      </div>
-      
-      <div>
-        <button onClick={handleButtonClick} type="submit">Submit</button>
-      </div>
-      <div>
-        <button onClick={handleCancel} type="button">Cancel</button>
-      </div>
-        </form>     
-      
-      
     </main>
   );
 }

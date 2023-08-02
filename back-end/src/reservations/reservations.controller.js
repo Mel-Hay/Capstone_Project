@@ -57,43 +57,6 @@ async function update(req, res, next) {
   }
 }
 
-async function validateData(req, res, next){
-  try{
-    const data = req.body.data || req.body
-    await validateReservationFields(data);
-    const {people}=data
-
-    let [hours, minutes] = data.reservation_time.split(":").map(Number);
-    const date = new Date(data.reservation_date);
-    const dayOfWeek = date.getUTCDay();
-  
-    if (Number.isNaN(dayOfWeek)) {
-      let error = new Error(`reservation_date is not a date`);
-      error.status = 400;
-      throw error;
-    }
-    if (typeof(Number(people)) !=="number") {
-        let error = new Error(`people is not a number.`);
-        error.status = 400;
-        throw error;
-      }
-
-      if(Number(people)<2){
-        let error = new Error(`Must have at least 2 for a reservation.`);
-        error.status = 400;
-        throw error;
-      }
-  
-    if (Number.isNaN(hours) || Number.isNaN(minutes)) {
-      let error = new Error(`reservation_time is not a time`);
-      error.status = 400;
-      throw error;
-    }
-    next()
-  }catch(error){
-    throw error
-  }   
-}
 
 async function validateUpdate(req, res, next){
 try{
@@ -200,7 +163,7 @@ async function validateCreate(req, res, next){
       throw error;
     }
 
-    const currentTimestamp = new Date();
+    const currentDate = new Date();
   
     let [hours, minutes] = reservation_time.split(":").map(Number);
     let [year, month, day] = reservation_date.split("-").map(Number);
@@ -224,36 +187,20 @@ async function validateCreate(req, res, next){
       throw error;
     }
   
-    const currentDate = {
-      year: currentTimestamp.getFullYear(),
-      month: currentTimestamp.getMonth(),
-      day: currentTimestamp.getDate(),
-      hour: currentTimestamp.getHours(),
-      minutes: currentTimestamp.getMinutes(),
-    };
+    const reservationDateTime = new Date(
+      year,
+      month-1,
+      day,
+      hours,
+      minutes
+    );
   
-    if (currentDate.year > year) {
+    if (currentDate.getTime()>reservationDateTime.getTime()) {
       let error = new Error(`The reservation must be set for a date in the future.`);
       error.status = 400;
       throw error;
-    } else if (currentDate.year === year && currentDate.month > month) {
-      let error = new Error(`The reservation must be set for a date in the future.`);
-      error.status = 400;
-      throw error;
-    } else if (currentDate.month === month && currentDate.day > day) {
-      let error = new Error(`The reservation must be set for a date in the future.`);
-      error.status = 400;
-      throw error;
-    } else if (currentDate.day === day && currentDate.hour > hours) {
-      let error = new Error(`The reservation must be set for a date in the future.`);
-      error.status = 400;
-      throw error;
-    } else if (currentDate.day === day && currentDate.hour === hours && currentDate.minutes > minutes) {
-      let error = new Error(`The reservation must be set for a date in the future.`);
-      error.status = 400;
-      throw error;
-    }
-    // Check if time is valid
+    } 
+  
    
     // Convert the time to minutes for easier comparison
     const timeInMinutes = hours * 60 + minutes;
