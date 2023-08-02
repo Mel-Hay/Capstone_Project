@@ -9,7 +9,7 @@ const requiredFields = [
   "mobile_number",
   "people",
 ];
-let production = process.env.PRODUCTION
+const production = process.env.PRODUCTION
 async function list(req, res, next) {
   const mobileNumber = req.query.mobile_number;
   if (mobileNumber) {
@@ -187,22 +187,36 @@ async function validateCreate(req, res, next){
       throw error;
     }
     if(production === true){
-      hours += 5
+      const reservationDateTime = new Date(
+        year,
+        month-1,
+        day,
+        hours+5,
+        minutes
+      );
+      if (currentDate.getTime()>reservationDateTime.getTime()) {
+        let error = new Error(`The reservation must be set for a date in the future.`);
+        error.status = 400;
+        throw error;
+      } 
+    }else{
+      const reservationDateTime = new Date(
+        year,
+        month-1,
+        day,
+        hours,
+        minutes
+      );
+      if (currentDate.getTime()>reservationDateTime.getTime()) {
+        let error = new Error(`The reservation must be set for a date in the future.`);
+        error.status = 400;
+        throw error;
+      } 
+    
     }
-    const reservationDateTime = new Date(
-      year,
-      month-1,
-      day,
-      hours,
-      minutes
-    );
+
   
-    if (currentDate.getTime()>reservationDateTime.getTime()) {
-      let error = new Error(`The reservation must be set for a date in the future.`);
-      error.status = 400;
-      throw error;
-    } 
-  
+    
    
     // Convert the time to minutes for easier comparison
     const timeInMinutes = hours * 60 + minutes;
