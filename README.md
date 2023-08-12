@@ -1,4 +1,6 @@
-# Capstone: Restaurant Reservation System
+# Here is my final deployment: https://capstone-project-front-end.vercel.app/dashboard
+# Here is the starter repo: https://github.com/Thinkful-Ed/starter-restaurant-reservation
+# Below is the requirements for this project.  
 
 > You have been hired as a full stack developer at _Periodic Tables_, a startup that is creating a reservation system for fine dining restaurants.
 > The software is used only by restaurant personnel when a customer calls to request a reservation.
