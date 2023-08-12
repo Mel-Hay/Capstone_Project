@@ -13,10 +13,11 @@ router.route("/")
     
 router.route("/:table_id/seat")
     .put(controller.update)
-    .delete(controller.destroy)
+    .delete(controller.remove)
     
 router.route("/:table_id")
     .get(controller.read)
+    .delete(controller.destroy)
     
 
 module.exports = router;

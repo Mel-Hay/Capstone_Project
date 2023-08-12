@@ -5,12 +5,6 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import './Dashboard.css'
 
-/**
- * Defines the dashboard page.
- * @param date
- *  the date for which the user wants to view reservations.
- * @returns {JSX.Element}
- */
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
@@ -99,7 +93,7 @@ function Dashboard({ date }) {
               </Link>
             </button>
                 
-            <button className="btn-lg btn-danger" 
+            <button className="btn-lg " 
               data-reservation-id-cancel={reservation.reservation_id}
               onClick={() => handleCancelClick(reservation_id)}>Cancel
             </button>
@@ -140,9 +134,10 @@ if(table.reservation_id){
         return(
           <div>
             <button 
+            className="tablesBtn"
               data-table-id-finish={table.table_id}
               onClick={() => handleFinish(table.table_id)}
-            >Finish</button>
+            >Finish Table</button>
           </div>
         )
       }
@@ -152,7 +147,7 @@ function renderSeatButton(reservation){
   if(reservation.status!=="seated"){
     return(
       <div>
-        <button className="btn-lg btn-primary">
+        <button className="btn-lg ">
           <Link className="seat-button"
             href={`/reservations/${reservation.reservation_id}/seat`}
             to={`/reservations/${reservation.reservation_id}/seat`}>Seat
@@ -180,8 +175,9 @@ function renderSeatButton(reservation){
             <p>Table Name: {table.table_name}</p>
           <p data-table-id-status={table.table_id}>Status: {formatStatus(table)}</p>
           <p>Capacity: {table.capacity}</p>
+          <button className="tablesBtn" onClick={() => handleDeleteTable(table.table_id)}>Delete Table</button>
           </div>
-          <div className="d-flex col-4">
+          <div className="d-flex col-8">
             {renderFinishButton(table)}
           </div>
           <hr />
@@ -192,7 +188,16 @@ function renderSeatButton(reservation){
     }
   }
 
-
+  const handleDeleteTable = async(table_id) =>{
+        try{
+          await axios.delete(`${REACT_APP_API_BASE_URL}/tables/${table_id}`)
+          loadDashboard()
+          await loadTables()
+        }catch(error){
+          setTablesError(error)
+        }
+    };
+    
   // Function to increase the date by one day
   const handleNext = (date) => {
     const currentDate = new Date(date);
@@ -213,13 +218,13 @@ function renderSeatButton(reservation){
 
   return (
     <main>
-      <h1 className="text-center">Dashboard</h1>
+      <h1 className="text-center dashboard">Dashboard</h1>
       <div className="d-flex justify-content-between my-2">
         <button 
-        className="btn-info btn-lg"
+        className="btn-lg nextPrev"
         onClick={() => handlePrev(date)}>Previous</button>
         <button onClick={() => handleNext(date)}
-        className="btn-info btn-lg"
+        className="btn-lg nextPrev"
         >Next</button>
       </div>
       <div className="d-flex">

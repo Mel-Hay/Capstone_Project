@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import "./Table.css"
 import ErrorAlert from "../layout/ErrorAlert";
 import { useHistory } from "react-router-dom";
 import axios from 'axios'
@@ -43,7 +43,7 @@ function Tables() {
       </div>
       <form >
         <div className="d-block">
-          <p className="d-inline-flex">Table Name:</p>
+          <p className="d-inline-flex tableP">Table Name:</p>
           <input 
           type="text"
           onChange={handleChange}
@@ -53,7 +53,7 @@ function Tables() {
         </div>
 
         <div className="d-block">
-          <p className="d-inline-flex">Capacity:</p>
+          <p className="d-inline-flex tableP">Capacity:</p>
           <input 
           type="number"
           onChange={handleChange}
@@ -61,11 +61,9 @@ function Tables() {
           name="capacity" 
           className="d-inline-flex"/> 
         </div>
-        <div>
-          <button onClick={handleButtonClick} type="submit">Submit</button>
-        </div>
-        <div>
-          <button type="button" onClick={()=>history.goBack()} >Cancel</button>
+        <div className="d-inline-flex ">
+          <button className="mx-2"onClick={handleButtonClick} type="submit">Submit</button>
+          <button className="mx-2"type="button" onClick={()=>history.goBack()} >Cancel</button>
         </div>
       </form>
       <ErrorAlert error={reservationsError} />

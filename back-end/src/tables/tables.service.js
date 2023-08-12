@@ -40,7 +40,7 @@ function readReservation(reservation_id) {
     .first()
 }
 
-async function destroy(table_id, newCapacity) {
+async function remove(table_id, newCapacity) {
   return knex("tables")
     .where({ "table_id": table_id })
     .update({ reservation_id: null, status: "free", capacity: newCapacity })
@@ -63,11 +63,18 @@ function updateReservation(reservation, status){
         })
 }
 
+function destroy(table_id){
+  return knex("tables")
+    .where({"table_id": table_id})
+    .del()
+}
+
 module.exports = {
   create,
   list,
   update,
   destroy,
+  remove,
   read,
   readReservation,
   updateReservation

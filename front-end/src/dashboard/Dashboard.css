@@ -1,17 +1,33 @@
 .seat-button{
     text-decoration: none;
-    color:white
-}
-.seat-button:hover{
-    text-decoration: none;
-    color:white
+    color:#c6ac8f
 }
 
 .edit-button{
     text-decoration: none;
-    color:blue
+    color:#c6ac8f
 }
-.edit-button:hover{
-    text-decoration: none;
-    color:blue
+
+button{
+    border-radius: 10%;
+    background-color: #5e503f ;
+    color: #c6ac8f;
+}
+body{
+    color:#0a0908;
+    background-color: #eae0d5;
+}
+
+
+*{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+.dashboard{
+    color: #5e503f;
+    font-weight: bold;
+}
+.tablesBtn{
+    width: 105px;
+    margin-top: 5px;
 }

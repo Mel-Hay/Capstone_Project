@@ -1,4 +1,8 @@
 .side-bar {
-  background-color: #393a44;
+  background-color: #353535;
+  color: #22333b;
   min-width: 200px;
+}
+.sidebar-brand-text{
+  color: #eae0d5;
 }

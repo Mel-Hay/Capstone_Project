@@ -114,21 +114,21 @@ async function validateUpdate(req, res, next){
 }
 
 
-async function destroy(req, res, next) {
+async function remove(req, res, next) {
   try {
     const { table_id } = req.params;
     const table = await service.read(table_id);
     const reservation = await service.readReservation(table.reservation_id);
     const newCapacity = table.capacity + reservation.people;
     await service.updateReservation(reservation, "finished")
-    const data = service.destroy(table_id, newCapacity);
+    const data = service.remove(table_id, newCapacity);
     res.status(200).json({data})
   } catch (error) {
     next(error);
   }
 }
 
-async function destroyValidator(req, res, next) {
+async function removeValidator(req, res, next) {
   try {
     const { table_id } = req.params;
     const table = await service.read(table_id);
@@ -190,12 +190,26 @@ async function destroyValidator(req, res, next) {
         throw error;
     }
   }
+
+async function destroy(req, res, next) {
+  const { table_id } = req.params;
+  try {
+      await service.destroy(table_id);
+      res.sendStatus(204);
+  } catch (error) {
+      next(error);
+  }
+}
+
+
+
   
 module.exports = {
   list: [asyncErrorBoundary(list)],
   read: [asyncErrorBoundary(read)],
   create: [asyncErrorBoundary(create)],
   update:[asyncErrorBoundary(validateUpdate), asyncErrorBoundary(update)],
-  destroy:[asyncErrorBoundary(destroyValidator) ,asyncErrorBoundary(destroy)]
+  remove:[asyncErrorBoundary(removeValidator) ,asyncErrorBoundary(remove)],
+  destroy:[asyncErrorBoundary(destroy)]
 };
 
